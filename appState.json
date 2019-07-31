@@ -1,0 +1,166 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "21e34bdc-4651-4b66-a33c-da43963f4e84": {
+        "id": "21e34bdc-4651-4b66-a33c-da43963f4e84",
+        "parent": null,
+        "name": "hiru3107_ECtest",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "49e92388-bda3-433c-8848-f22a68b9fa28",
+          "21b89c78-cca3-4957-a410-2b01e2fb000f"
+        ],
+        "isRemovable": false,
+        "filePath": "hiru3107_ECtest"
+      },
+      "49e92388-bda3-433c-8848-f22a68b9fa28": {
+        "id": "49e92388-bda3-433c-8848-f22a68b9fa28",
+        "parent": "21e34bdc-4651-4b66-a33c-da43963f4e84",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "hiru3107_ECtest/lambda.js",
+        "code": "let SL_REDIS = require('slappforge-sdk-redis');\nlet clusterManager = require('./ClusterManager');\nconst redis = new SL_REDIS.Redis(clusterManager);\n\nexports.handler = function (event, context, callback) {\n    // You must always quit the redis client after it's used\n    redis.rename({\n        clusterIdentifier: 'hirutest',\n        params: [{\n            key: 'test',\n            name: 'testname'\n        }]\n    }, function (error, response, redisClient) {\n        if (error) {\n            callback(error);\n        } else {\n            //redisClient.quit();\n        }\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": []
+      },
+      "21b89c78-cca3-4957-a410-2b01e2fb000f": {
+        "id": "21b89c78-cca3-4957-a410-2b01e2fb000f",
+        "parent": "21e34bdc-4651-4b66-a33c-da43963f4e84",
+        "name": "ClusterManager.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "hiru3107_ECtest/ClusterManager.js",
+        "code": "module.exports = function() {\n    this.clusters = [];\n\n    this.clusters[\"hirutest\"] = {\n        host: process.env.EndPoint_redisHirutest,\n        port: 6379,\n        clusterModeEnabled: false\n    };\n};"
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "21e34bdc-4651-4b66-a33c-da43963f4e84",
+    "openFiles": [
+      "49e92388-bda3-433c-8848-f22a68b9fa28"
+    ],
+    "currentFileId": "49e92388-bda3-433c-8848-f22a68b9fa28",
+    "resources": {
+      "redis-hirutest": {
+        "name": "redis-hirutest",
+        "type": "Redis",
+        "config": {
+          "clusterConfig": {
+            "engineType": "redis",
+            "clusterSpec": {
+              "instanceFamily": "t2",
+              "nodeTypeClass": "cache.t2.small",
+              "engineVersion": "5.0.4",
+              "clusterModeEnabled": false,
+              "autoFailoverEnabled": true,
+              "numOfShards": 3,
+              "numOfReplicas": 2
+            },
+            "clusterSetting": {
+              "clusterName": "hirutest",
+              "clusterDescription": "this is a test cluster",
+              "port": 6379
+            },
+            "vpcSpec": {
+              "vpcType": "EXISTING",
+              "existingVPC": {
+                "vpcID": "vpc-078b129f383b73640",
+                "subNetID": "subnet-04017788251c7db93",
+                "securityGroupID": "sg-0b2a02d5f949fc6f8"
+              },
+              "newVPC": {
+                "vpcName": "",
+                "vpcIPv4CIDR": "10.0.0.0/16",
+                "subnetName": "",
+                "subnetIPv4CIDR": "10.0.0.0/20"
+              }
+            },
+            "host": "",
+            "doesExist": false,
+            "alreadyDeployed": false,
+            "redisClient": "",
+            "external": false
+          },
+          "clusterResources": [],
+          "editMode": false,
+          "enableInject": true,
+          "isGlobalEditMode": false,
+          "isClusterSelectionValid": true,
+          "isNewFromGlobal": false,
+          "mode": 0,
+          "operation": {
+            "str": "REDIS_RENAME",
+            "operation": "rename",
+            "displayName": "RENAME",
+            "type": {
+              "str": "REDIS_KEYS",
+              "type": "keys",
+              "displayName": "KEYS"
+            }
+          },
+          "params": [],
+          "projectRegion": "us-east-1",
+          "reusableMode": false,
+          "showOperations": true,
+          "validator": {
+            "validatableFields": {},
+            "validity": true
+          }
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "slappforge-sdk-redis": {
+          "name": "slappforge-sdk-redis",
+          "language": "javascript",
+          "version": "0.0.3",
+          "dev": false,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "hiru3107_ECtest",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1564563888199
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "hiru3107_ECtest",
+      "url": "https://github.com/HirudineeADRT/hiru3107_ECtest",
+      "branches": []
+    }
+  }
+}
